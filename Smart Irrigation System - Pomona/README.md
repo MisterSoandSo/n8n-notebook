@@ -5,8 +5,8 @@ The workflow operates autonomously based on a set of rules and environmental con
 
 ---
 ## **Table of Contents**
-*   [The Minimal Viable Product](#The-MVP-Draft)
-*   [Continuous Development and Integration](#CI/CD)
+* [The Minimal Viable Product](#the-mvp-draft)
+* [Continuous Development and Integration](#cicd)
 
 ---
 ## The MVP Draft
@@ -18,6 +18,7 @@ For this project, we will use **n8n** to control our Home Assistant sprinkler re
 4. **Discord (or Telegram) bot token** (optional)
 
 
+
 ![Initial Concept](../media/Pomona001.png)
 
 During the MVP design phase, we will temporarily use a **Discord Message** node in place of the actual relay triggers. This allows us to test logic safely without activating the sprinklers.
@@ -25,6 +26,8 @@ During the MVP design phase, we will temporarily use a **Discord Message** node 
 We pull weather data from the **OpenWeather API**, then clean and reduce the response to only the relevant segments: **the next 12 hours, in 3-hour intervals**. This reduced dataset is passed to the AI agent Pomona, which determines how much watering time each relay zone should receive.
 
 Below is the initial design map:
+
+![Initial Segment](../media/Pomona002.png)
 
 ```
 Trigger (Schedule) → Home Assistant Node → IF → True → Pass in API credentials & GPS data (Set Node) → (HTTP Request) → Clean Data → AI Agent
@@ -55,6 +58,8 @@ code be pasted later
 ```
 
 If none of the zones need to be skipped, we loop through all the relays and run each one for its assigned duration.
+
+![Relay Logic](../media/Pomona003.png)
 
 ```
 AI Agent → Process LLM Response into JSON Items → IF → True → Check Messages → Send Msg (Discord)   
